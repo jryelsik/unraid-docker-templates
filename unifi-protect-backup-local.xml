@@ -110,7 +110,7 @@
     Type="Variable"
     Display="always"
     Required="false"
-    Mask="false">vv</Config>
+    Mask="false">v</Config>
   <Config Name="Rclone Args"
     Target="RCLONE_ARGS"
     Default=""
@@ -166,7 +166,7 @@
     Required="false"
     Mask="false">1GiB</Config>
   <Config Name="Purge Interval"
-    Target="DOWNLOAD_BUFFER_SIZE"
+    Target="PURGE_INTERVAL"
     Default="1d"
     Mode=""
     Description="How frequently to check for file to purge. This can create a lot of API calls, so be careful if your cloud provider charges you per api call"

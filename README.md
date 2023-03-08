@@ -1,4 +1,4 @@
-## Adding Docker templates to unraid
+## Adding Docker Templates to Unraid
 
 1. Go to unraid `\\TOWER\flash\config\plugins\dockerMan\templates-user` in Windows Explorer
 2. Place xml files in directory
