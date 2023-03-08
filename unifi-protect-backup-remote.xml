@@ -1,0 +1,179 @@
+<?xml version="1.0"?>
+<Container version="2">
+  <Name>UniFi-Protect-Backup</Name>
+  <Repository>unifi-protect-backup</Repository>
+  <Registry>https://github.com/jryelsik/unifi-protect-backup.git</Registry>
+  <Network>bridge</Network>
+  <MyIP/>
+  <Shell>bash</Shell>
+  <Privileged>false</Privileged>
+  <Project>https://github.com/jryelsik/unifi-protect-backup</Project>
+  <Overview>A Python based tool for backing up UniFi Protect event clips as they occur to cloud storage.&#xD;
+&#xD;
+  By default it will backup clips locally to `/data` inside the container. However you can create an `rclone` config file to backup to&#xD;
+  dozens of cloud providers. You can do this by running the following commands:&#xD;
+&#xD;
+  ```&#xD;
+  $ mkdir -p /mnt/user/appdata/unifi-protect-backup/config&#xD;
+  $ docker run -it --rm -v /mnt/user/appdata/unifi-protect-backup/config:/root/.config/rclone --entrypoint rclone ghcr.io/ep1cman/unifi-protect-backup config&#xD;
+  ```&#xD;
+  &#xD;
+  Use the interactive configuration tool to setup your desired backup destination. Once complete you can start the container ensuring&#xD;
+  that the `RCLONE_DESTINATION` uses the name of your rclone remote e.g `MyDropbox:/path/on/dropbx`&#xD;
+&#xD;
+  NOTE: If you are using the `local` remote type, the path set in `RCLONE_DESTINATION` will be inside the container so please use &#xD;
+        `/data`. You then need to set the optional "Clip directory" below to where you actually want the data to be stored.</Overview>
+  <Category>Backup:</Category>
+  <WebUI/>
+  <TemplateURL>https://raw.githubusercontent.com/ep1cman/unraid-templates/master/unifi-protect-backup.xml</TemplateURL>
+  <Icon/>
+  <ExtraParams/>
+  <PostArgs/>
+  <CPUset/>
+  <DateInstalled></DateInstalled>
+  <Requires/>
+  <Config Name="TimeZone"
+    Target="TZ"
+    Default="UTC"
+    Mode=""
+    Description="TimeZone for the container refer to https://en.wikipedia.org/wiki/List_of_tz_database_time_zones for a list of possible timezones"
+    Type="Variable"
+    Display="always"
+    Required="true"
+    Mask="false">UTC</Config>
+  <Config Name="UniFi Protect Username"
+    Target="UFP_USERNAME"
+    Default=""
+    Mode=""
+    Description="Username to login to Unifi Protect instance"
+    Type="Variable"
+    Display="always"
+    Required="true"
+    Mask="false"></Config>
+  <Config Name="UniFi Protect Password"
+    Target="UFP_PASSWORD"
+    Default=""
+    Mode=""
+    Description="Password for Unifi Protect user"
+    Type="Variable"
+    Display="always"
+    Required="true"
+    Mask="true"></Config>
+  <Config Name="UniFi Protect Address"
+    Target="UFP_ADDRESS"
+    Default=""
+    Mode=""
+    Description="Address of Unifi Protect instance"
+    Type="Variable"
+    Display="always"
+    Required="true"
+    Mask="false"></Config>
+  <Config Name="UniFi Protect Port"
+    Target="UFP_PORT"
+    Default="443"
+    Mode=""
+    Description="Port of Unifi Protect instance"
+    Type="Variable"
+    Display="always"
+    Required="true"
+    Mask="false">443</Config>
+  <Config Name="Verify SSL Certificate"
+    Target="UFP_SSL_VERIFY"
+    Default="false"
+    Mode=""
+    Description="Set to false if your UniFi protect instances doesn't have a valid SSL certificate"
+    Type="Variable"
+    Display="always"
+    Required="true"
+    Mask="false">false</Config>
+  <Config Name="Clip Retention Period"
+    Target="RCLONE_RETENTION"
+    Default="7d"
+    Mode=""
+    Description="How long should event clips be backed up for. Format as per the `--max-age` argument of `rclone` (https://rclone.org/filtering/#max-age-don-t-transfer-any-file-older-than-this)"
+    Type="Variable"
+    Display="always"
+    Required="true"
+    Mask="false">15d</Config>
+  <Config Name="Rclone Destination"
+    Target="RCLONE_DESTINATION"
+    Default="local:/data"
+    Mode=""
+    Description="`rclone` destination path in the format {rclone remote}:{path on remote}. E.g.`gdrive:/backups/unifi_protect`"
+    Type="Variable"
+    Display="always"
+    Required="true"
+    Mask="false">gdrive:/backups</Config>
+  <Config Name="Ignore Cameras"
+    Target="IGNORE_CAMERAS"
+    Default=""
+    Mode=""
+    Description="IDs of the cameras you want unifi-protect-backup to ignore. A list of camera IDs will be appear at the start of the log"
+    Type="Variable"
+    Display="always"
+    Required="false"
+    Mask="false"/>
+  <Config Name="Logging Verbosity"
+    Target="VERBOSITY"
+    Default="v"
+    Mode=""
+    Description="More `v`s = more verbost logging"
+    Type="Variable"
+    Display="always"
+    Required="false"
+    Mask="false">v</Config>
+  <Config Name="Rclone Args"
+    Target="RCLONE_ARGS"
+    Default=""
+    Mode=""
+    Description="Optional arguments which are directly passed to `rclone rcat`. See the `rclone` documentation for the full set of arguments it supports (https://rclone.org/docs/)"
+    Type="Variable"
+    Display="always"
+    Required="false"
+    Mask="false"/>
+  <Config Name="Rclone Config"
+    Target="/config/rclone"
+    Default="/mnt/user/appdata/unifi-protect-backup/rclone/"
+    Mode="rw"
+    Description="Location of rclone configuration files"
+    Type="Path"
+    Display="always"
+    Required="true"
+    Mask="false">/mnt/user/appdata/unifi-protect-backup/rclone/rclone-remote</Config>
+  <Config Name="Database Directory"
+    Target="/config/database"
+    Default="/mnt/user/appdata/unifi-protect-backup/database/"
+    Mode="rw"
+    Description="Location to save the SQLite events database"
+    Type="Path"
+    Display="always"
+    Required="true"
+    Mask="false">/mnt/user/appdata/unifi-protect-backup/database/database-remote</Config>
+  <Config Name="Detection Types"
+    Target="DETECTION_TYPES"
+    Default="motion"
+    Mode=""
+    Description="Detection types to save. Options are 'motion', 'person', 'vehicle', 'ring'"
+    Type="Variable"
+    Display="always"
+    Required="false"
+    Mask="false">motion</Config>
+  <Config Name="Download Buffer Size"
+    Target="DOWNLOAD_BUFFER_SIZE"
+    Default=""
+    Mode=""
+    Description="How big the download buffer should be (you can use suffixes like 'B', 'KiB', 'MiB', 'GiB')"
+    Type="Variable"
+    Display="always"
+    Required="false"
+    Mask="false">1GiB</Config>
+  <Config Name="Purge Interval"
+    Target="DOWNLOAD_BUFFER_SIZE"
+    Default="1d"
+    Mode=""
+    Description="How frequently to check for file to purge. This can create a lot of API calls, so be careful if your cloud provider charges you per api call"
+    Type="Variable"
+    Display="always"
+    Required="false"
+    Mask="false"></Config>
+</Container>
