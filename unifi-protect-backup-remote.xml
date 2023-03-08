@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <Container version="2">
-  <Name>UniFi-Protect-Backup</Name>
+  <Name>UniFi-Protect-Backup-Remote</Name>
   <Repository>unifi-protect-backup</Repository>
   <Registry>https://github.com/jryelsik/unifi-protect-backup.git</Registry>
   <Network>bridge</Network>
