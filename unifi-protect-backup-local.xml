@@ -8,13 +8,9 @@
   <Shell>bash</Shell>
   <Privileged>false</Privileged>
   <Project>https://github.com/jryelsik/unifi-protect-backup</Project>
-  <Overview>A Python based tool for backing up UniFi Protect event clips as they occur to cloud storage.&#xD;
-&#xD;  By default it will backup clips locally to `/data` inside the container. However you can create an `rclone` config file to backup to&#xD;  dozens of cloud providers. You can do this by running the following commands:&#xD;
-&#xD;  ```&#xD;  $ mkdir -p /mnt/user/appdata/unifi-protect-backup/config&#xD;  $ docker run -it --rm -v /mnt/user/appdata/unifi-protect-backup/config:/root/.config/rclone --entrypoint rclone ghcr.io/ep1cman/unifi-protect-backup config&#xD;  ```&#xD;  &#xD;  Use the interactive configuration tool to setup your desired backup destination. Once complete you can start the container ensuring&#xD;  that the `RCLONE_DESTINATION` uses the name of your rclone remote e.g `MyDropbox:/path/on/dropbx`&#xD;
-&#xD;  NOTE: If you are using the `local` remote type, the path set in `RCLONE_DESTINATION` will be inside the container so please use &#xD;        `/data`. You then need to set the optional "Clip directory" below to where you actually want the data to be stored.</Overview>
+  <Overview>A Python based tool for backing up UniFi Protect event clips as they occur to cloud storage. For local backup only. Use remote template for backing up to cloud.</Overview>
   <Category>Backup:</Category>
   <WebUI/>
-  <TemplateURL>https://raw.githubusercontent.com/ep1cman/unraid-templates/master/unifi-protect-backup.xml</TemplateURL>
   <Icon/>
   <ExtraParams/>
   <PostArgs/>
@@ -110,7 +106,7 @@
     Type="Variable"
     Display="always"
     Required="false"
-    Mask="false">v</Config>
+    Mask="false">vvv</Config>
   <Config Name="Rclone Args"
     Target="RCLONE_ARGS"
     Default=""
