@@ -11,6 +11,7 @@
   <Overview>A Python based tool for backing up UniFi Protect event clips as they occur to cloud storage. For local backup only. Use remote template for backing up to cloud.</Overview>
   <Category>Backup:</Category>
   <WebUI/>
+  <TemplateURL>https://raw.githubusercontent.com/ep1cman/unraid-templates/master/unifi-protect-backup.xml</TemplateURL>
   <Icon/>
   <ExtraParams/>
   <PostArgs/>
@@ -106,7 +107,7 @@
     Type="Variable"
     Display="always"
     Required="false"
-    Mask="false">vvv</Config>
+    Mask="false">v</Config>
   <Config Name="Rclone Args"
     Target="RCLONE_ARGS"
     Default=""

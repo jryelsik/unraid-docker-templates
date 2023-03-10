@@ -1,0 +1,142 @@
+<?xml version="1.0"?>
+<Container version="2">
+  <Name>unmanic</Name>
+  <Repository>josh5/unmanic:latest</Repository>
+  <Registry>https://hub.docker.com/r/josh5/unmanic/</Registry>
+  <Network>bridge</Network>
+  <MyIP/>
+  <Shell>bash</Shell>
+  <Privileged>true</Privileged>
+  <Support/>
+  <Project>https://github.com/Unmanic/unmanic</Project>
+  <Overview>Unmanic is a simple tool for optimising your file library with a highly customisable plugin system.&#xD;
+Remove the complexity of automatically converting your file library.&#xD;
+Simply point Unmanic at your library and let it manage it for you.&#xD;
+&#xD;
+---&#xD;
+## Features:&#xD;
+- Manage multiple independent libraries of any media file type with a large range of plugins.&#xD;
+- Simple to configure - don't waste your time with hours of setup. Just get the job done with Unmanic.&#xD;
+- Support for VAAPI/QSV/NVIDIA NVENC for hardware accelerated encoding.&#xD;
+- Schedule file scans at set intervals.&#xD;
+- Configure inotify file monitors for your libraries.&#xD;
+- Link with other installations to share in distributed processing of tasks. These other installations may be on:&#xD;
+    - This same Unraid server&#xD;
+    - A LAN connected PC (including across subnets)&#xD;
+    - A Internet connected PC behind a basic auth proxy&#xD;
+    - Linux, MacOS, Windows&#xD;
+    - x86, Armv7, Arm64&#xD;
+&#xD;
+---&#xD;
+## Advanced Configuration:&#xD;
+&#xD;
+### LIMIT CPU USE:&#xD;
+1) Toggle this Docker Container template editor to "Advanced View".&#xD;
+2) In the "Extra Parameters" field, add "--cpus='1'".&#xD;
+This value depends on the number of cores available to the container. To limit to 50%, set this value to 0.5 * n cores. If you have 2 cores available to this container, "--cpus='.5'" will equal 25% of that available CPU resources. To limit the CPU cores available to the continer, use "CPU Pinning"&#xD;
+&#xD;
+### LIMIT RAM ALLOCATION:&#xD;
+1) Toggle this Docker Container template editor to "Advanced View".&#xD;
+2) In the "Extra Parameters" field, add "--memory='1g'".&#xD;
+Unmanic can use on average around 100Mib - 500 Mib of RAM for various Disk IO tasks.&#xD;
+Even though limiting RAM is unnecessary as Unmanic should not ever need more that 1GB RAM it is good practice to do so.&#xD;
+**Note:** If you set your *Cache Directory* path to a tmpfs or RAM, limiting your memory allocation will affect the available RAM for the cache volume.&#xD;
+&#xD;
+### NVIDIA GPU USE (NVDEC/NVENC):&#xD;
+1) Install the **Nvidia-Driver** plugin.&#xD;
+2) Toggle this Docker Container template editor to "Advanced View".&#xD;
+3) In the "Extra Parameters" field, add "--runtime=nvidia".&#xD;
+4) Expand the template "Show more settings..." section.&#xD;
+5) In the "NVIDIA_VISIBLE_DEVICES" variable, copy your GPU UUID (can be found in the Unraid Nvidia Plugin)&#xD;
+&#xD;
+### INTEL GPU USE (QSV/VAAPI):&#xD;
+1) Install the **Intel-GPU-TOP** plugin.&#xD;
+2) Toggle this Docker Container template editor to "Advanced View".&#xD;
+3) In the "Extra Parameters" field, add "--device=/dev/dri".&#xD;
+&#xD;
+### AMD GPU USE (VAAPI):&#xD;
+1) Install the **Radeon-TOP** plugin.&#xD;
+2) Toggle this Docker Container template editor to "Advanced View".&#xD;
+3) In the "Extra Parameters" field, add "--device=/dev/dri".</Overview>
+  <Category>Productivity: MediaApp:Video MediaApp:Music MediaApp:Books MediaApp:Photos MediaApp:Other spotlight:</Category>
+  <WebUI>http://[IP]:[PORT:8888]/</WebUI>
+  <TemplateURL>https://raw.githubusercontent.com/Josh5/unraid-docker-templates/master/josh5/unmanic.xml</TemplateURL>
+  <Icon>https://raw.githubusercontent.com/Unmanic/unmanic/master/icon.png</Icon>
+  <ExtraParams>--device=/dev/dri</ExtraParams>
+  <PostArgs/>
+  <CPUset/>
+  <DateInstalled>1678490403</DateInstalled>
+  <Requires>&amp;lt;br&amp;gt;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;**Nvidia-Driver plugin** (optional - required for nVidia Support)&amp;lt;br&amp;gt;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;**Intel-GPU-TOP plugin** (optional - required for Intel Support)&amp;lt;br&amp;gt;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;**Radeon-TOP plugin** (optional - required for AMD Support)&amp;lt;br&amp;gt;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;&amp;amp;nbsp;</Requires>
+  <Config Name="WebUI"
+    Target="8888"
+    Default="8888"
+    Mode="tcp"
+    Description=""
+    Type="Port"
+    Display="always"
+    Required="false"
+    Mask="false">8888</Config>
+  <Config Name="Appdata"
+    Target="/config"
+    Default="/mnt/user/appdata/unmanic"
+    Mode="rw"
+    Description="Location where all container configuration is stored."
+    Type="Path"
+    Display="always"
+    Required="true"
+    Mask="false">/mnt/user/appdata/unmanic</Config>
+  <Config Name="Cache Directory"
+    Target="/tmp/unmanic"
+    Default=""
+    Mode="rw"
+    Description="Location where task files are temporarily stored while workers are carrying out jobs on them."
+    Type="Path"
+    Display="always"
+    Required="true"
+    Mask="false">/mnt/user/unmanic-temp/</Config>
+  <Config Name="Library Media"
+    Target="/library/media"
+    Default=""
+    Mode="rw"
+    Description=""
+    Type="Path"
+    Display="always"
+    Required="false"
+    Mask="false">/mnt/user/media/</Config>
+  <Config Name="PUID"
+    Target="PUID"
+    Default="99"
+    Mode=""
+    Description=""
+    Type="Variable"
+    Display="advanced"
+    Required="false"
+    Mask="false">99</Config>
+  <Config Name="PGID"
+    Target="PGID"
+    Default="100"
+    Mode=""
+    Description=""
+    Type="Variable"
+    Display="advanced"
+    Required="false"
+    Mask="false">100</Config>
+  <Config Name="Nvidia GPU UUID"
+    Target="NVIDIA_VISIBLE_DEVICES"
+    Default="all"
+    Mode=""
+    Description="The UUID of the NVIDIA GPU that you wish to use within this container. Set to 'all' to use all available NVIDIA GPUs."
+    Type="Variable"
+    Display="advanced"
+    Required="false"
+    Mask="false">all</Config>
+  <Config Name="Nvidia GPU Patch Version"
+    Target="NVIDIA_PATCH_VERSION"
+    Default=""
+    Mode=""
+    Description="For description, join the conversation at https://unmanic.app/discord"
+    Type="Variable"
+    Display="advanced"
+    Required="false"
+    Mask="false"/>
+</Container>
